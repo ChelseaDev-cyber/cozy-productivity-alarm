@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Alarm Clock+</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <div class="background-image">
+      <img
+        src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWRhY3JiYmFhZ3F6cXB2eWgwczJ2NGZzaDBqaWlmZzliYWpiY3VoZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VERjX6XwSH4j1fgkoe/giphy.gif"
+        alt="background gif"
+        id="gyro-gif"
+      ></img>
+    </div>
+
+    <div class="wrapper">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/010/915/935/large_2x/3d-alarm-with-business-money-investment-alert-concept-ui-icon-or-3d-alarm-clock-ui-icon-free-png.png"
+        alt="clock"
+        id="main-clock-image"
+      />
+
+      <h1>00:00:00 PM</h1>
+      <div class="content">
+        <div class="column">
+          <select>
+            <option value="Hour" selected disabled hidden>Hour</option>
+          </select>
+        </div>
+        <div class="column">
+          <select>
+            <option value="Minute" selected disabled hidden>Minute</option>
+          </select>
+        </div>
+        <div class="column">
+          <select>
+            <option value="AM/PM" selected disabled hidden>AM/PM</option>
+          </select>
+        </div>
+      </div>
+      <button>Set Alarm :3</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
