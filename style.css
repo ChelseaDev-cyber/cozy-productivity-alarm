@@ -1,0 +1,162 @@
+* {
+  color: #8EC274;
+  margin: 1px 1px 0px 0px; /* Corrected syntax */
+  padding: 3px 4px 3px 4px; /* Corrected syntax */
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body,
+.wrapper,
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  padding: 0 50px;
+  min-height: 100vh; /* Ensure body takes full viewport height */
+  overflow: hidden; /* Hide scrollbars if content overflows due to gyro effect */
+}
+
+.background-image {
+  position: fixed; /* Fix the background image */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place it behind other content */
+  display: flex; /* Ensure flex for centering img if needed */
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px; /* For 3D transform */
+}
+
+.background-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire area */
+  transform-style: preserve-3d; /* Enable 3D transformations for the image */
+  will-change: transform; /* Optimize performance for transform property */
+}
+
+.h1 {
+  display: flex;
+  flex-direction: column;
+  background-color: lightblue;
+}
+
+.wrapper {
+  width: 440px;
+  max-width: 90%; /* Adjust for mobile screens */
+  height: auto; /* Adjust height automatically */
+  padding: 30px 30px 38px;
+  background: none;
+  border-radius: 80px;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(194, 129, 129, 0.1);
+  backdrop-filter: blur(5px); /* Add a subtle blur to the background behind the wrapper */
+  -webkit-backdrop-filter: blur(5px); /* Safari support */
+  perspective: 1000px; /* Perspective for 3D effect on child image */
+}
+
+.wrapper img {
+  max-width: 100%; /* Make clock image responsive */
+  height: auto;
+  transition: transform 0.1s ease-out; /* Smooth transition for rotation */
+  transform-style: preserve-3d; /* Enable 3D transformations */
+}
+
+.wrapper h1 {
+  color: rgb(187, 108, 175);
+  font-size: 38px;
+  font-weight: 500;
+  margin: 30px 30px;
+}
+
+.wrapper .content {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.content.disable {
+  cursor: no-drop;
+}
+
+.content .column {
+  padding: 0 10px;
+  border-radius: 5px;
+  border: 1px solid #BFBFBF;
+  width: calc(100% / 3 - 5px);
+  color: #DC7DB9;
+}
+
+.content.disable .column {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.column select {
+  width: 100%;
+  height: 57px;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 19px;
+  color: #D874D5;
+}
+
+.wrapper button {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #FDFFFC;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 17px 0;
+  margin-top: 20px;
+  border-radius: 7px;
+  background: #f568bc;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 0 20px; /* Reduce padding for smaller screens */
+  }
+
+  .wrapper {
+    padding: 20px;
+  }
+
+  .wrapper h1 {
+    font-size: 32px;
+    margin: 20px 0;
+  }
+
+  .column select {
+    font-size: 16px;
+    height: 48px;
+  }
+
+  .wrapper button {
+    font-size: 18px;
+    padding: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    max-width: 95%; /* Even narrower on very small screens */
+  }
+
+  .content .column {
+    width: 100%; /* Stack columns vertically */
+    margin-bottom: 10px;
+  }
+
+  .wrapper .content {
+    flex-direction: column;
+  }
+}
