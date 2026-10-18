@@ -48,8 +48,9 @@ function updateClock() {
     hasRung = true;
     ringtone.currentTime = 0;
     ringtone.play().catch(() => {
-      // Browsers may block audio until the user interacts with the page.
-      setAlarmBtn.textContent = "Tap to enable alarm sound";
+      // Keep the alarm armed even if the browser blocks autoplay.
+      const note = document.querySelector(".alarm-note");
+      if (note) note.textContent = "Your browser blocked alarm audio. Check its sound permissions.";
     });
   }
 }
