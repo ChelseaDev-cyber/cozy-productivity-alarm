@@ -404,3 +404,14 @@ button:active {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Alarm state: keep the selected time visibly locked while an alarm is armed. */
+.content.disable {
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.content.disable select {
+  cursor: not-allowed;
+}
