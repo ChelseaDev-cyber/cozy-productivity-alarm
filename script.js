@@ -1,165 +1,142 @@
-const currentTime = document.querySelector("h1"),
-  content = document.querySelector(".content"),
-  selectMenu = document.querySelectorAll("select"),
-  setAlarmBtn = document.querySelector("button"),
-  gyroGif = document.getElementById("gyro-gif"), // Get the GIF element
-  mainClockImage = document.getElementById("main-clock-image"); // Get the main clock image
+const currentTime = document.querySelector("h1");
+const content = document.querySelector(".content");
+const selectMenu = document.querySelectorAll("select");
+const setAlarmBtn = document.querySelector("button");
+const gyroGif = document.getElementById("gyro-gif");
+const mainClockImage = document.getElementById("main-clock-image");
 
-let alarmTime,
-  isAlarmSet,
-  ringtone = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3");
+let alarmTime = "";
+let isAlarmSet = false;
+let hasRung = false;
 
-// Variables for 3D image animation on touch/mouse
-let isDraggingClock = false;
-let startX, startY;
-let currentRotationX = 0;
-let currentRotationY = 0;
-const rotationSensitivity = 0.2; // Adjust for more or less sensitive rotation
+const ringtone = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3");
+ringtone.loop = true;
 
-for (let i = 12; i > 0; i--) {
-  i = i < 10 ? `0${i}` : i;
-  let option = `<option value="${i}">${i}</option>`;
-  selectMenu[0].firstElementChild.insertAdjacentHTML("afterend", option);
+// Populate the alarm time controls.
+for (let i = 12; i >= 1; i--) {
+  const value = String(i).padStart(2, "0");
+  selectMenu[0].insertAdjacentHTML("beforeend", `<option value="${value}">${value}</option>`);
 }
 
-for (let i = 59; i >= 0; i--) {
-  i = i < 10 ? `0${i}` : i;
-  let option = `<option value="${i}">${i}</option>`;
-  selectMenu[1].firstElementChild.insertAdjacentHTML("afterend", option);
+for (let i = 0; i <= 59; i++) {
+  const value = String(i).padStart(2, "0");
+  selectMenu[1].insertAdjacentHTML("beforeend", `<option value="${value}">${value}</option>`);
 }
 
-for (let i = 2; i > 0; i--) {
-  let ampm = i == 1 ? "AM" : "PM";
-  let option = `<option value="${ampm}">${ampm}</option>`;
-  selectMenu[2].firstElementChild.insertAdjacentHTML("afterend", option);
+["AM", "PM"].forEach((period) => {
+  selectMenu[2].insertAdjacentHTML("beforeend", `<option value="${period}">${period}</option>`);
+});
+
+function getCurrentTime() {
+  const now = new Date();
+  let hours = now.getHours();
+  const period = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+
+  return {
+    display: `${String(hours).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")} ${period}`,
+    alarm: `${String(hours).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")} ${period}`
+  };
 }
 
-setInterval(() => {
-  let date = new Date(),
-    h = date.getHours(),
-    m = date.getMinutes(),
-    s = date.getSeconds(),
-    ampm = "AM";
-  if (h >= 12) {
-    h = h - 12;
-    ampm = "PM";
+function updateClock() {
+  const time = getCurrentTime();
+  currentTime.textContent = time.display;
+
+  // Ring only once when the selected minute arrives; keep the sound looping until cleared.
+  if (isAlarmSet && !hasRung && alarmTime === time.alarm) {
+    hasRung = true;
+    ringtone.currentTime = 0;
+    ringtone.play().catch(() => {
+      // Browsers may block audio until the user interacts with the page.
+      setAlarmBtn.textContent = "Tap to enable alarm sound";
+    });
   }
-  h = h == 0 ? 12 : h;
-  h = h < 10 ? "0" + h : h;
-  m = m < 10 ? "0" + m : m;
-  s = s < 10 ? "0" + s : s;
-  currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
+}
 
-  if (alarmTime === `${h}:${m} ${ampm}`) {
-    ringtone.play();
-    ringtone.loop = true;
-  }
-}, 1000);
+updateClock();
+setInterval(updateClock, 1000);
 
 function setAlarm() {
   if (isAlarmSet) {
     alarmTime = "";
+    isAlarmSet = false;
+    hasRung = false;
     ringtone.pause();
+    ringtone.currentTime = 0;
+    selectMenu.forEach((select) => { select.disabled = false; });
     content.classList.remove("disable");
-    setAlarmBtn.innerText = "Set Alarm";
-    return (isAlarmSet = false);
+    setAlarmBtn.textContent = "Set Alarm ♡";
+    return;
   }
 
-  let time = `${selectMenu[0].value}:${selectMenu[1].value} ${selectMenu[2].value}`;
-  if (
-    time.includes("Hour") ||
-    time.includes("Minute") ||
-    time.includes("AM/PM")
-  ) {
-    return alert("Please, select a valid time to set Alarm!");
+  const [hour, minute, period] = Array.from(selectMenu, (select) => select.value);
+  if (!hour || !minute || !period || hour === "Hour" || minute === "Minute" || period === "AM/PM") {
+    window.alert("Please choose an hour, minute, and AM/PM to set your alarm.");
+    return;
   }
-  alarmTime = time;
+
+  alarmTime = `${hour}:${minute} ${period}`;
   isAlarmSet = true;
+  hasRung = false;
+  selectMenu.forEach((select) => { select.disabled = true; });
   content.classList.add("disable");
-  setAlarmBtn.innerText = "Clear Alarm";
+  setAlarmBtn.textContent = "Clear Alarm ♡";
 }
 
 setAlarmBtn.addEventListener("click", setAlarm);
 
-// Gyro animation for the background GIF
-if (window.DeviceOrientationEvent) {
-  window.addEventListener("deviceorientation", handleOrientation);
-} else {
-  console.log("DeviceOrientationEvent is not supported on this device.");
+// Device tilt adds a subtle movement to the ambient decorations where supported.
+if (window.DeviceOrientationEvent && gyroGif) {
+  window.addEventListener("deviceorientation", (event) => {
+    if (event.beta == null || event.gamma == null) return;
+    const beta = Math.max(-10, Math.min(10, event.beta));
+    const gamma = Math.max(-10, Math.min(10, event.gamma));
+    gyroGif.style.transform = `rotateX(${beta}deg) rotateY(${gamma}deg)`;
+  });
 }
 
-function handleOrientation(event) {
-  let beta = event.beta;   // X-axis (front-back tilt)
-  let gamma = event.gamma; // Y-axis (left-right tilt)
+// Drag or touch the illustrated clock to tilt it.
+let isDraggingClock = false;
+let startX = 0;
+let startY = 0;
+let currentRotationX = 0;
+let currentRotationY = 0;
+const rotationSensitivity = 0.2;
 
-  const maxTilt = 10; // degrees
-
-  let rotateY = gamma;
-  if (rotateY > maxTilt) rotateY = maxTilt;
-  if (rotateY < -maxTilt) rotateY = -maxTilt;
-
-  let rotateX = beta;
-  if (rotateX > maxTilt) rotateX = maxTilt;
-  if (rotateX < -maxTilt) rotateX = -maxTilt;
-
-  if (gyroGif) {
-    gyroGif.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }
-}
-
-// 3D animation for the main clock image on touch/mouse interaction
-if (mainClockImage) {
-  mainClockImage.addEventListener("mousedown", startDrag);
-  mainClockImage.addEventListener("touchstart", startDrag);
-
-  window.addEventListener("mousemove", drag);
-  window.addEventListener("touchmove", drag);
-
-  window.addEventListener("mouseup", endDrag);
-  window.addEventListener("touchend", endDrag);
-  window.addEventListener("touchcancel", endDrag); // For touch events ending unexpectedly
-}
-
-function getPointerPosition(event) {
+function pointerPosition(event) {
   return event.touches ? event.touches[0] : event;
 }
 
 function startDrag(event) {
   isDraggingClock = true;
-  const pointer = getPointerPosition(event);
+  const pointer = pointerPosition(event);
   startX = pointer.clientX;
   startY = pointer.clientY;
-  event.preventDefault(); // Prevent default browser actions like scrolling for touch
+  if (event.cancelable) event.preventDefault();
 }
 
 function drag(event) {
   if (!isDraggingClock) return;
-
-  const pointer = getPointerPosition(event);
-  const deltaX = (pointer.clientX - startX) * rotationSensitivity;
-  const deltaY = (pointer.clientY - startY) * rotationSensitivity;
-
-  // Apply rotation
-  currentRotationY += deltaX;
-  currentRotationX -= deltaY; // Invert Y-axis for natural feel
-
-  // Limit rotation to avoid extreme distortions
-  const maxRotation = 60;
-  if (currentRotationX > maxRotation) currentRotationX = maxRotation;
-  if (currentRotationX < -maxRotation) currentRotationX = -maxRotation;
-  if (currentRotationY > maxRotation) currentRotationY = maxRotation;
-  if (currentRotationY < -maxRotation) currentRotationY = -maxRotation;
-
+  const pointer = pointerPosition(event);
+  currentRotationY = Math.max(-35, Math.min(35, currentRotationY + (pointer.clientX - startX) * rotationSensitivity));
+  currentRotationX = Math.max(-35, Math.min(35, currentRotationX - (pointer.clientY - startY) * rotationSensitivity));
   mainClockImage.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-
   startX = pointer.clientX;
   startY = pointer.clientY;
-  event.preventDefault();
+  if (event.cancelable) event.preventDefault();
 }
 
 function endDrag() {
   isDraggingClock = false;
-  // Optional: ease back to original position or keep the last rotation
-  // For now, it will smoothly stay in the last rotated position due to CSS transition.
-  // To reset: mainClockImage.style.transform = 'rotateX(0deg) rotateY(0deg)';
+}
+
+if (mainClockImage) {
+  mainClockImage.addEventListener("mousedown", startDrag);
+  mainClockImage.addEventListener("touchstart", startDrag, { passive: false });
+  window.addEventListener("mousemove", drag);
+  window.addEventListener("touchmove", drag, { passive: false });
+  window.addEventListener("mouseup", endDrag);
+  window.addEventListener("touchend", endDrag);
+  window.addEventListener("touchcancel", endDrag);
 }
