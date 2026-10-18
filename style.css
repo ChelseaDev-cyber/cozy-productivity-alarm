@@ -415,3 +415,20 @@ button:active {
 .content.disable select {
   cursor: not-allowed;
 }
+
+
+/* Clear visual feedback while an alarm is armed. */
+.column select:disabled {
+  color: #aa91a2;
+  background: #fff7fa;
+  cursor: not-allowed;
+  opacity: 0.78;
+}
+
+.clock-art {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.content.disable {
+  opacity: 0.92;
+}
