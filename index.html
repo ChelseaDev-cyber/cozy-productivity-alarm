@@ -1,48 +1,89 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Alarm Clock+</title>
-    <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff4f8" />
+    <meta name="description" content="Alarm Clock+, a cozy pastel alarm clock created by Flow3rChildStudios." />
+    <title>Alarm Clock+ | Flow3rChildStudios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <div class="background-image">
-      <img
-        src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWRhY3JiYmFhZ3F6cXB2eWgwczJ2NGZzaDBqaWlmZzliYWpiY3VoZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VERjX6XwSH4j1fgkoe/giphy.gif"
-        alt="background gif"
-        id="gyro-gif"
-      ></img>
-    </div>
-
-    <div class="wrapper">
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/010/915/935/large_2x/3d-alarm-with-business-money-investment-alert-concept-ui-icon-or-3d-alarm-clock-ui-icon-free-png.png"
-        alt="clock"
-        id="main-clock-image"
-      />
-
-      <h1>00:00:00 PM</h1>
-      <div class="content">
-        <div class="column">
-          <select>
-            <option value="Hour" selected disabled hidden>Hour</option>
-          </select>
-        </div>
-        <div class="column">
-          <select>
-            <option value="Minute" selected disabled hidden>Minute</option>
-          </select>
-        </div>
-        <div class="column">
-          <select>
-            <option value="AM/PM" selected disabled hidden>AM/PM</option>
-          </select>
-        </div>
+    <div class="background-image" aria-hidden="true">
+      <div id="gyro-gif" class="ambient-art">
+        <span class="sparkle sparkle-one">✦</span>
+        <span class="sparkle sparkle-two">✧</span>
+        <span class="sparkle sparkle-three">✿</span>
+        <span class="sparkle sparkle-four">♡</span>
+        <span class="sparkle sparkle-five">✧</span>
+        <span class="sparkle sparkle-six">✦</span>
       </div>
-      <button>Set Alarm :3</button>
     </div>
+
+    <main class="wrapper">
+      <div class="topline">
+        <span class="brand-mark" aria-hidden="true">✿</span>
+        <p class="studio-label">FLOW3RCHILDSTUDIOS</p>
+      </div>
+
+      <div id="main-clock-image" class="clock-art" role="img" aria-label="Original pink alarm clock illustration">
+        <span class="clock-bell bell-left"></span>
+        <span class="clock-bell bell-right"></span>
+        <span class="bell-shine shine-left"></span>
+        <span class="bell-shine shine-right"></span>
+        <span class="clock-face">
+          <span class="clock-tick tick-twelve"></span>
+          <span class="clock-tick tick-three"></span>
+          <span class="clock-tick tick-six"></span>
+          <span class="clock-tick tick-nine"></span>
+          <span class="clock-hands"></span>
+          <span class="clock-center"></span>
+        </span>
+        <span class="clock-foot foot-left"></span>
+        <span class="clock-foot foot-right"></span>
+        <span class="clock-bow" aria-hidden="true">♡</span>
+      </div>
+
+      <p class="eyebrow">a little reminder to bloom</p>
+      <h1 aria-live="off">00:00:00 PM</h1>
+      <p class="helper-text">Make time for your own kind of magic.</p>
+
+      <section class="alarm-panel" aria-label="Set your alarm">
+        <p class="panel-heading">Your next little moment</p>
+        <div class="content">
+          <div class="column">
+            <label for="alarm-hour">Hour</label>
+            <select id="alarm-hour" aria-label="Hour">
+              <option value="Hour" selected disabled hidden>Hour</option>
+            </select>
+          </div>
+          <span class="time-separator" aria-hidden="true">:</span>
+          <div class="column">
+            <label for="alarm-minute">Minute</label>
+            <select id="alarm-minute" aria-label="Minute">
+              <option value="Minute" selected disabled hidden>Minute</option>
+            </select>
+          </div>
+          <div class="column period-column">
+            <label for="alarm-period">Period</label>
+            <select id="alarm-period" aria-label="AM or PM">
+              <option value="AM/PM" selected disabled hidden>AM/PM</option>
+            </select>
+          </div>
+        </div>
+        <button type="button">Set Alarm ♡</button>
+        <p class="alarm-note">A gentle nudge, right on time.</p>
+      </section>
+
+      <footer class="brand-footer">
+        <span aria-hidden="true">✧</span>
+        An original digital creation by <strong>Flow3rChildStudios</strong>
+        <span aria-hidden="true">✧</span>
+      </footer>
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
