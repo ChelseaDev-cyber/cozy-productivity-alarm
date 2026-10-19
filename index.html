@@ -74,8 +74,18 @@
             </select>
           </div>
         </div>
-        <button type="button">Set Alarm ♡</button>
-        <p class="alarm-note">A gentle nudge, right on time.</p>
+        <button type="button" id="set-alarm">Set Alarm ♡</button>
+        <div class="sound-picker">
+          <label for="alarm-sound">Alarm sound</label>
+          <select id="alarm-sound" aria-label="Choose alarm sound">
+            <option value="chime">Starlight Chime</option>
+            <option value="digital">Digital Beeps</option>
+            <option value="melody">Soft Melody</option>
+            <option value="bell">Little Bell</option>
+          </select>
+          <button type="button" id="preview-sound" class="preview-button">Preview sound ♫</button>
+        </div>
+        <p class="alarm-note" role="status">A gentle nudge, right on time.</p>
       </section>
 
       <footer class="brand-footer">
@@ -84,6 +94,16 @@
         <span aria-hidden="true">✧</span>
       </footer>
     </main>
+    <div id="ringing-overlay" class="ringing-overlay" role="dialog" aria-modal="true" aria-labelledby="ringing-title" aria-describedby="ringing-message" hidden>
+      <div class="ringing-card">
+        <div class="ringing-icon" aria-hidden="true">♡</div>
+        <p class="ringing-eyebrow">your little reminder</p>
+        <h2 id="ringing-title">Time to bloom!</h2>
+        <p id="ringing-message">Your alarm is ringing. Take a breath and start your next moment.</p>
+        <p id="ringing-time" class="ringing-time">00:00 AM</p>
+        <button type="button" id="stop-alarm">Stop alarm ♡</button>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
