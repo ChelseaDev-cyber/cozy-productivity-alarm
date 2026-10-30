@@ -51,30 +51,29 @@
       <h1 aria-live="off">00:00:00 PM</h1>
       <p class="helper-text">Make time for your own kind of magic.</p>
 
-      <section class="alarm-panel" aria-label="Set your alarm">
+      <form id="alarm-form" class="alarm-panel" aria-label="Set your alarm" novalidate>
         <p class="panel-heading">Your next little moment</p>
         <div class="content">
           <div class="column">
             <label for="alarm-hour">Hour</label>
-            <select id="alarm-hour" aria-label="Hour">
+            <select id="alarm-hour" aria-label="Hour" aria-describedby="alarm-status">
               <option value="Hour" selected disabled hidden>Hour</option>
             </select>
           </div>
           <span class="time-separator" aria-hidden="true">:</span>
           <div class="column">
             <label for="alarm-minute">Minute</label>
-            <select id="alarm-minute" aria-label="Minute">
+            <select id="alarm-minute" aria-label="Minute" aria-describedby="alarm-status">
               <option value="Minute" selected disabled hidden>Minute</option>
             </select>
           </div>
           <div class="column period-column">
             <label for="alarm-period">Period</label>
-            <select id="alarm-period" aria-label="AM or PM">
+            <select id="alarm-period" aria-label="AM or PM" aria-describedby="alarm-status">
               <option value="AM/PM" selected disabled hidden>AM/PM</option>
             </select>
           </div>
         </div>
-        <button type="button" id="set-alarm">Set Alarm ♡</button>
         <div class="sound-picker">
           <label for="alarm-sound">Alarm sound</label>
           <select id="alarm-sound" aria-label="Choose alarm sound">
@@ -85,8 +84,12 @@
           </select>
           <button type="button" id="preview-sound" class="preview-button">Preview sound ♫</button>
         </div>
-        <p class="alarm-note" role="status">A gentle nudge, right on time.</p>
-      </section>
+        <p id="sound-status" class="sound-note" role="status">Four original tones, ready to preview.</p>
+        <button type="submit" id="set-alarm">Set Alarm ♡</button>
+        <p id="alarm-status" class="alarm-note" role="status">A gentle nudge, right on time.</p>
+        <p id="alarm-countdown" class="alarm-countdown" aria-live="off" hidden></p>
+        <p class="browser-note">Keep this tab open, sound on, and your device awake. Sleeping devices can delay alarms.</p>
+      </form>
 
       <footer class="brand-footer">
         <span aria-hidden="true">✧</span>
@@ -94,16 +97,19 @@
         <span aria-hidden="true">✧</span>
       </footer>
     </main>
-    <div id="ringing-overlay" class="ringing-overlay" role="dialog" aria-modal="true" aria-labelledby="ringing-title" aria-describedby="ringing-message" hidden>
+    <dialog id="ringing-overlay" class="ringing-overlay" aria-labelledby="ringing-title" aria-describedby="ringing-message">
       <div class="ringing-card">
         <div class="ringing-icon" aria-hidden="true">♡</div>
         <p class="ringing-eyebrow">your little reminder</p>
         <h2 id="ringing-title">Time to bloom!</h2>
         <p id="ringing-message">Your alarm is ringing. Take a breath and start your next moment.</p>
         <p id="ringing-time" class="ringing-time">00:00 AM</p>
-        <button type="button" id="stop-alarm">Stop alarm ♡</button>
+        <p id="ringing-status" class="ringing-status" role="status"></p>
+        <button type="button" id="retry-sound" class="secondary-button" hidden>Play alarm sound ♫</button>
+        <button type="button" id="snooze-alarm" class="secondary-button">Snooze 5 minutes</button>
+        <button type="button" id="stop-alarm" autofocus>Stop alarm ♡</button>
       </div>
-    </div>
+    </dialog>
     <script src="script.js"></script>
   </body>
 </html>
