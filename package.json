@@ -1,0 +1,16 @@
+{
+  "name": "cozy-productivity-alarm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cozy pastel alarm clock by Flow3rChildStudios",
+  "scripts": {
+    "test": "node --test tests/alarm.test.cjs",
+    "test:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

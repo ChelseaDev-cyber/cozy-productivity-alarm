@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   --ink: #765b72;
-  --muted: #a28a9e;
+  --muted: #80697c;
   --pink: #e99ab8;
   --pink-deep: #d8759d;
   --pink-light: #fff0f5;
@@ -97,7 +97,7 @@ select {
 
 .studio-label {
   margin: 0;
-  color: #b47a9b;
+  color: #8d536f;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.2em;
@@ -242,7 +242,7 @@ select {
 
 .eyebrow {
   margin: 8px 0 3px;
-  color: #b47a9b;
+  color: #8d536f;
   font-family: "Quicksand", sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
@@ -276,7 +276,7 @@ h1 {
 
 .panel-heading {
   margin: 0 0 14px;
-  color: #96748d;
+  color: #765b72;
   font-size: 0.84rem;
   font-weight: 800;
 }
@@ -298,7 +298,7 @@ h1 {
 }
 
 .column label {
-  color: #a58a9e;
+  color: #80657b;
   font-size: 0.72rem;
   font-weight: 800;
   text-align: left;
@@ -318,7 +318,7 @@ h1 {
   font-size: 0.88rem;
 }
 
-.column select:focus-visible,
+select:focus-visible,
 button:focus-visible {
   outline: 3px solid rgba(190, 160, 232, 0.65);
   outline-offset: 3px;
@@ -341,7 +341,7 @@ button {
   padding: 12px 18px;
   border: 0;
   border-radius: 15px;
-  color: #fff;
+  color: #59334f;
   background: linear-gradient(115deg, #e9a0bd, #d98eb5 58%, #c4afea);
   box-shadow: 0 8px 18px rgba(208, 133, 172, 0.23);
   cursor: pointer;
@@ -362,8 +362,9 @@ button:active {
 
 .alarm-note {
   margin: 11px 0 0;
-  color: #b49bad;
-  font-size: 0.75rem;
+  color: var(--ink);
+  font-size: 0.81rem;
+  line-height: 1.5;
 }
 
 .brand-footer {
@@ -372,7 +373,7 @@ button:active {
   justify-content: center;
   gap: 6px;
   margin-top: 21px;
-  color: #b09aab;
+  color: var(--muted);
   font-size: 0.69rem;
   line-height: 1.6;
 }
@@ -406,9 +407,9 @@ button:active {
 }
 
 
-/* Alarm state: keep the selected time visibly locked while an alarm is armed. */
+/* Keep the selected time visibly locked while an alarm is armed. */
 .content.disable {
-  opacity: 0.58;
+  opacity: 0.92;
   pointer-events: none;
 }
 
@@ -418,8 +419,9 @@ button:active {
 
 
 /* Clear visual feedback while an alarm is armed. */
-.column select:disabled {
-  color: #aa91a2;
+.column select:disabled,
+.sound-picker select:disabled {
+  color: #80657b;
   background: #fff7fa;
   cursor: not-allowed;
   opacity: 0.78;
@@ -429,6 +431,140 @@ button:active {
   transition: transform 180ms ease, filter 180ms ease;
 }
 
-.content.disable {
-  opacity: 0.92;
+.sound-picker {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.sound-picker label {
+  color: #80657b;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sound-picker select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid #f0d5e1;
+  border-radius: 12px;
+  color: var(--ink);
+  background: #fff;
+  cursor: pointer;
+}
+
+.preview-button,
+.secondary-button {
+  color: #76516f;
+  background: #f3edf9;
+  box-shadow: none;
+}
+
+.preview-button {
+  min-height: 44px;
+  margin-top: 0;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+}
+
+.sound-note,
+.browser-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.sound-note {
+  min-height: 2.8em;
+}
+
+.alarm-countdown {
+  margin: 10px 0 0;
+  padding: 9px;
+  border-radius: 12px;
+  color: #466553;
+  background: #e9f4ed;
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.browser-note {
+  margin-top: 13px;
+}
+
+[hidden],
+.ringing-overlay:not([open]) {
+  display: none !important;
+}
+
+select[aria-invalid="true"] {
+  border-color: #a74d72;
+  outline: 2px solid #f4ccd9;
+}
+
+.ringing-overlay {
+  width: min(420px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 1px solid #f0d5e1;
+  border-radius: 28px;
+  color: var(--ink);
+  background: #fffafc;
+  box-shadow: 0 24px 80px rgba(89, 51, 79, 0.24);
+  text-align: center;
+}
+
+.ringing-overlay::backdrop {
+  background: rgba(66, 40, 61, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.ringing-card {
+  padding: 28px 24px;
+}
+
+.ringing-icon {
+  color: #b55d86;
+  font-size: 3rem;
+}
+
+.ringing-eyebrow {
+  margin: 4px 0 8px;
+  color: #8d536f;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.ringing-card h2 {
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.8rem;
+}
+
+#ringing-message,
+.ringing-status {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ringing-time {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ringing-status {
+  color: #91456b;
+}
+
+.ringing-status:empty {
+  display: none;
+}
+
+.ringing-card button {
+  margin-top: 10px;
 }
